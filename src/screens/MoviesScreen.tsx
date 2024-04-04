@@ -1,16 +1,36 @@
 import React from "react";
 import useMovies from "../useMovies";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { FlatList, StyleSheet } from "react-native";
+import { FlatList, Platform, StatusBar, StyleSheet, View } from "react-native";
 import Movie from "../Movie";
+import Colors from 'open-color'
 
-const style = StyleSheet.create({})
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: Colors.black,
+    },
+    movieList: {
+        padding: 20,
+    },
+    separator: {
+        height: 10,
+    },
+});
 
 const MoviesScreen = () => {
     const { movies } = useMovies();
-    return <SafeAreaView>
+    return( 
+    <SafeAreaView style={styles.container}>
+        {
+            Platform.OS === 'ios' ? (
+                <StatusBar barStyle="light-content"/>
+            ) : (
+                <StatusBar barStyle="dark-content"/>
+        )}
+
         <FlatList
-            style={style.movieList}
+            contentContainerStyle={styles.movieList}
             data={movies}
             renderItem={({ item: movie }) => (
              <Movie 
@@ -21,8 +41,9 @@ const MoviesScreen = () => {
                 posterUrl={movie.posterUrl ?? undefined}
                 />
             )}
+            ItemSeparatorComponent={() => <View style={styles.separator} /> }
      />
     </SafeAreaView>
-}
+)}
 
 export default MoviesScreen;
