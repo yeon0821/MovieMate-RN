@@ -3,13 +3,11 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React, { type PropsWithChildren } from 'react';
 import { RootStackParmList } from './src/types';
 import MoviesScreen from './src/screens/MoviesScreen';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { QueryClient, QueryClientProvider } from 'react-query'
 
 const Stack = createNativeStackNavigator<RootStackParmList>();
 
-const queryClient = new QueryClient()
-
-
+const queryClient = new QueryClient();
 
 const App = () => {
     return (
