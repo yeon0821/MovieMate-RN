@@ -1,6 +1,6 @@
 export type RootStackParmList = {
     Movies: undefined;
-    Detial: { id: number };
+    Detail: { id: number };
 };
 
 export interface Movie{
