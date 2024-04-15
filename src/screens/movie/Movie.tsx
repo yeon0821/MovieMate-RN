@@ -2,7 +2,6 @@ import React, { useCallback } from "react";
 import { Image, StyleSheet, Text, TouchableOpacity, View, useColorScheme } from "react-native";
 import Colors from 'open-color';
 import { useNavigation } from "@react-navigation/native";
-import { NativeStackNavigationConfig } from "react-native-screens/lib/typescript/native-stack/types";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParmList } from "../../types";
  
@@ -68,7 +67,7 @@ const Movie = ({
 }: MovieProps) => {
     const { navigate } = useNavigation<NativeStackNavigationProp<RootStackParmList>>();
     const onPress = useCallback(() => {
-        navigate('Detial', { id })
+        navigate('Detail', { id })
     }, [id, navigate]);
 
     return (
