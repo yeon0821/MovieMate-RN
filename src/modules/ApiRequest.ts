@@ -76,10 +76,9 @@ export const getDiscoverMovies =  async ({
 
 interface GetMovieDetailsParams {
     id: number;
-}
-
-
-interface GetMovieResponse {
+  }
+  
+  interface GetMovieResponse {
     id: number;
     genres: {
       id: number;
@@ -136,8 +135,7 @@ interface GetMovieResponse {
       }[];
     }[];
   }
-
-
+  
   export const getMovieDetails = async ({ id }: GetMovieDetailsParams) => {
     const { data: movie } = await instance.get<GetMovieResponse>(`movie/${id}`, {
       params: {
