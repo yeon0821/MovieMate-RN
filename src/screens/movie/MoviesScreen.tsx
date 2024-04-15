@@ -1,9 +1,9 @@
 import React from "react";
 import useMovies from "./useMovies";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { ActivityIndicator, FlatList, Platform, RefreshControl, StatusBar, StyleSheet, View } from "react-native";
+import { ActivityIndicator, FlatList, RefreshControl, StyleSheet, View } from "react-native";
 import Movie from "./Movie";
 import Colors from 'open-color'
+import Screen from "../../components/Screen";
 
 const styles = StyleSheet.create({
     container: {
@@ -26,22 +26,17 @@ const styles = StyleSheet.create({
 const MoviesScreen = () => {
     const { movies, isLoading, loadMore, canLoadMore, refresh } = useMovies();
     return( 
-    <SafeAreaView style={styles.container}>
-        {
-            Platform.OS === 'ios' ? (
-                <StatusBar barStyle="light-content"/>
-            ) : (
-                <StatusBar barStyle="dark-content"/>
-        )}
 
-        {
-            isLoading ? < View style={styles.lodingContainer}><ActivityIndicator /></View>
-            :(
+    <Screen headerVisible = {false}>
+
+
+        {isLoading ? < View style={styles.lodingContainer}><ActivityIndicator /></View>:(
                 <FlatList
                 contentContainerStyle={styles.movieList}
                 data={movies}
                 renderItem={({ item: movie }) => (
                  <Movie 
+                    id={movie.id}
                     title={movie.title}
                     originalTitle={movie.originalTitle}
                     releaseDate={movie.releaseDate}
@@ -65,7 +60,7 @@ const MoviesScreen = () => {
             />
          )
      }
-    </SafeAreaView>
+    </Screen>
     );
 };
 

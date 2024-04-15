@@ -1,6 +1,10 @@
-import React from "react";
-import { Image, StyleSheet, Text, View } from "react-native";
+import React, { useCallback } from "react";
+import { Image, StyleSheet, Text, TouchableOpacity, View, useColorScheme } from "react-native";
 import Colors from 'open-color';
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationConfig } from "react-native-screens/lib/typescript/native-stack/types";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { RootStackParmList } from "../../types";
  
 const styles = StyleSheet.create({
     container: {
@@ -46,6 +50,7 @@ const styles = StyleSheet.create({
 });
 
 interface MovieProps{
+    id: number;
     title: string;
     originalTitle: string;
     releaseDate: string;
@@ -54,14 +59,20 @@ interface MovieProps{
 }
 
 const Movie = ({
+    id,
     title,
     originalTitle,
     releaseDate,
     overview,
     posterUrl,
 }: MovieProps) => {
+    const { navigate } = useNavigation<NativeStackNavigationProp<RootStackParmList>>();
+    const onPress = useCallback(() => {
+        navigate('Detial', { id })
+    }, [id, navigate]);
+
     return (
-        <View style={styles.container}>
+        <TouchableOpacity style={styles.container} onPress={onPress}> 
             <View style={styles.poster}>
                 {posterUrl != null && <Image style={styles.posterImage} source={{uri: posterUrl}} />}
             </View>
@@ -71,7 +82,7 @@ const Movie = ({
                 <Text style={styles.releaseDateText}>{releaseDate}</Text>
                 <Text style={styles.overviewText} numberOfLines={4} ellipsizeMode='tail'>{overview}</Text>
             </View>      
-        </View>
+        </TouchableOpacity>
     );
 }
 
