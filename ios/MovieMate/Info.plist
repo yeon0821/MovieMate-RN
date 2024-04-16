@@ -66,5 +66,7 @@
       <string>Zocial.ttf</string>
       <string>Fontisto.ttf</string>
     </array>
+    <key>NSCalendarsUsageDescription</key>
+      <string>It is used to save release date of movies by user.</string>
 </dict>
 </plist>
