@@ -4,6 +4,9 @@ import { ActivityIndicator, FlatList, RefreshControl, StyleSheet, View } from "r
 import Movie from "./Movie";
 import Colors from 'open-color'
 import Screen from "../../components/Screen";
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { RootStackParmList } from "../../types";
 
 const styles = StyleSheet.create({
     container: {
@@ -25,6 +28,8 @@ const styles = StyleSheet.create({
 
 const MoviesScreen = () => {
     const { movies, isLoading, loadMore, canLoadMore, refresh } = useMovies();
+    const { navigate } =
+    useNavigation<NativeStackNavigationProp<RootStackParmList>>();
     return( 
 
     <Screen headerVisible = {false}>
