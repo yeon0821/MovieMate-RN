@@ -90,7 +90,7 @@ const DetailScreen = () => {
   } = useRoute<RouteProp<RootStackParmList, 'Detail'>>();
 
   const { movie, isLoading } = useDetail({ id });
-  const { addReminder } = useReminder();
+  const { addReminder, hasReminder } = useReminder();
 
   const renderMovie = useCallback(() => {
     if (movie == null) {
@@ -143,6 +143,7 @@ const DetailScreen = () => {
           }}>
           <Text style={styles.addToCalendarButtonText}>캘린더에 추가하기</Text>
         </TouchableOpacity>
+        {hasReminder(`${movie.id}`) ? null : (
         <TouchableOpacity 
         style={styles.addToCalendarButton} 
         onPress={async () => {
@@ -155,6 +156,7 @@ const DetailScreen = () => {
         }}>
           <Text style={styles.addToCalendarButtonText}>알림 추가하기</Text>
         </TouchableOpacity>
+        )}
         <Section title="소개">
           <Text style={styles.overviewText}>{overview}</Text>
         </Section>
@@ -198,7 +200,7 @@ const DetailScreen = () => {
         </Section>
       </ScrollView>
     );
-  }, [movie, addReminder]);
+  }, [movie, addReminder, hasReminder]);
 
   return (
     <Screen>

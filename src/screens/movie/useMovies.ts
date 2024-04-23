@@ -19,10 +19,10 @@ const useMovies = () => {
         queryKey: ['upcomming-movies'],
         queryFn: getUpcommingMovies,
         getNextPageParam: (lastPage) => {
-           if (lastPage.page < lastPage.totalPages) {
-            return lastPage.page + 1;
-           }
-           return undefined;
+            if (lastPage.page < lastPage.totalPages) {
+                return lastPage.page + 1;
+            }
+            return undefined;
         }
     });
 

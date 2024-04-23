@@ -4,7 +4,7 @@ import Colors from 'open-color';
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParmList } from "../../types";
- 
+
 const styles = StyleSheet.create({
     container: {
         borderWidth: 1,
@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
         marginLeft: 12,
         flex: 1,
     },
-    titleText:{
+    titleText: {
         fontSize: 18,
         color: Colors.white,
         fontWeight: 'bold',
@@ -48,13 +48,13 @@ const styles = StyleSheet.create({
     },
 });
 
-interface MovieProps{
+interface MovieProps {
     id: number;
     title: string;
     originalTitle: string;
     releaseDate: string;
     overview: string;
-    posterUrl: string;
+    posterUrl?: string;
 }
 
 const Movie = ({
@@ -71,16 +71,16 @@ const Movie = ({
     }, [id, navigate]);
 
     return (
-        <TouchableOpacity style={styles.container} onPress={onPress}> 
+        <TouchableOpacity style={styles.container} onPress={onPress}>
             <View style={styles.poster}>
-                {posterUrl != null && <Image style={styles.posterImage} source={{uri: posterUrl}} />}
+                {posterUrl != null && <Image style={styles.posterImage} source={{ uri: posterUrl }} />}
             </View>
             <View style={styles.info}>
                 <Text style={styles.titleText}>{title}</Text>
                 <Text style={styles.originalTitleText}>{originalTitle}</Text>
                 <Text style={styles.releaseDateText}>{releaseDate}</Text>
                 <Text style={styles.overviewText} numberOfLines={4} ellipsizeMode='tail'>{overview}</Text>
-            </View>      
+            </View>
         </TouchableOpacity>
     );
 }
