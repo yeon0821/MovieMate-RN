@@ -3,8 +3,11 @@ import notifee, { AndroidImportance, AndroidNotificationSetting, AuthorizationSt
 import { Platform } from "react-native";
 import moment from "moment";
 
+const MAX_REMINDER_NUM_FOR_FREE = 2;
+
 const useReminder = () => {
   const [channelId, setChannelId] = useState<string | null>(null)
+
 
   useEffect(() => {
     (async () => {
@@ -26,6 +29,13 @@ const useReminder = () => {
     const notifications = await notifee.getTriggerNotifications();
     setReminders(notifications);
   }, []);
+
+
+  const canAddReminder = useCallback(async () => {
+    const triggeredNotifications = await notifee.getTriggerNotifications();
+    return triggeredNotifications.length < MAX_REMINDER_NUM_FOR_FREE;
+  }, []);
+
 
   const addReminder = useCallback(
     async (movieId: number, releaseDate: string, title: string) => {
@@ -99,6 +109,7 @@ const useReminder = () => {
     removeReminder,
     reminders,
     hasReminder,
+    canAddReminder,
   }
 };
 
