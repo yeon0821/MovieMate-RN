@@ -1,4 +1,8 @@
 {
   "name": "MovieMate",
-  "displayName": "MovieMate"
+  "displayName": "MovieMate",
+  "react-native-google-mobile-ads": {
+    "android_app_id": "ca-app-pub-7291745711889858~2398128045",
+    "ios_app_id": "ca-app-pub-7291745711889858~7640429011"
+  }
 }
