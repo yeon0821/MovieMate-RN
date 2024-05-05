@@ -12,6 +12,7 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Colors from 'open-color';
+import ScreenBannerAd from './ScreenBannerAd';
 
 const styles = StyleSheet.create({
   container: {
@@ -88,6 +89,7 @@ const Screen = ({ children, title, headerVisible = true, renderRightComponent }:
           </View>
         </View>
       )}
+      <ScreenBannerAd />
       <View style={styles.content}>{children}</View>
     </SafeAreaView>
   );
