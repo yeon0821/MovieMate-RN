@@ -1,5 +1,5 @@
 import { RouteProp, useRoute } from '@react-navigation/native';
-import React, { useCallback } from 'react';
+import React, { useCallback, useRef } from 'react';
 import {
   ActivityIndicator,
   Alert,
@@ -21,7 +21,7 @@ import YouTubeVideo from './YouTubeVideo';
 import CalendarModule from '../../modules/CalendarModule';
 import moment from 'moment';
 import useReminder from '../../hook/useReminder';
-
+import RewardAd, { RewardAdRef } from '../../components/RewardAd';
 
 const styles = StyleSheet.create({
   loadingContainer: {
@@ -90,7 +90,9 @@ const DetailScreen = () => {
   } = useRoute<RouteProp<RootStackParmList, 'Detail'>>();
 
   const { movie, isLoading } = useDetail({ id });
-  const { addReminder, hasReminder } = useReminder();
+  const { addReminder, hasReminder, removeReminder, canAddReminder } =
+    useReminder();
+  const rewardAdRef = useRef<RewardAdRef | null>(null);
 
   const renderMovie = useCallback(() => {
     if (movie == null) {
@@ -143,20 +145,62 @@ const DetailScreen = () => {
           }}>
           <Text style={styles.addToCalendarButtonText}>캘린더에 추가하기</Text>
         </TouchableOpacity>
-        {hasReminder(`${movie.id}`) ? null : (
-        <TouchableOpacity 
-        style={styles.addToCalendarButton} 
-        onPress={async () => {
-          try{
-            await addReminder(movie.id, movie.releaseDate, movie.title);
-            Alert.alert('알림 등록이 완료되었습니다.');
-          } catch (error: any){
-            Alert.alert(error.message);
-          }
-        }}>
-          <Text style={styles.addToCalendarButtonText}>알림 추가하기</Text>
-        </TouchableOpacity>
+        {hasReminder(`${movie.id}`) ? (
+          <TouchableOpacity
+            style={styles.addToCalendarButton}
+            onPress={async () => {
+              try {
+                await removeReminder(`${movie.id}`);
+                Alert.alert('알림 제거가 완료되었습니다.');
+              } catch (error: any) {
+                Alert.alert(error.message);
+              }
+            }}>
+            <Text style={styles.addToCalendarButtonText}>알림 제거하기</Text>
+          </TouchableOpacity>
+        ) : (
+          <TouchableOpacity
+            style={styles.addToCalendarButton}
+            onPress={async () => {
+              const addReminderHandler = async () => {
+                try {
+                  await addReminder(movie.id, movie.releaseDate, movie.title);
+                  Alert.alert('알림 등록이 완료되었습니다.');
+                } catch (error: any) {
+                  Alert.alert(error.message);
+                }
+              };
+
+              if (await canAddReminder()) {
+                addReminderHandler();
+              } else {
+                Alert.alert(
+                  '광고를 보고 리마인더를 등록하시겠습니까?',
+                  undefined,
+                  [
+                    {
+                      text: '아니요',
+                    },
+                    {
+                      text: '네',
+                      onPress: () => {
+                        rewardAdRef.current?.show({
+                          onRewarded: rewarded => {
+                            if (rewarded) {
+                              addReminderHandler();
+                            }
+                          },
+                        });
+                      },
+                    },
+                  ],
+                );
+              }
+            }}>
+            <Text style={styles.addToCalendarButtonText}>알림 추가하기</Text>
+          </TouchableOpacity>
         )}
+
         <Section title="소개">
           <Text style={styles.overviewText}>{overview}</Text>
         </Section>
@@ -200,7 +244,7 @@ const DetailScreen = () => {
         </Section>
       </ScrollView>
     );
-  }, [movie, addReminder, hasReminder]);
+  }, [movie, addReminder, hasReminder, removeReminder, canAddReminder]);
 
   return (
     <Screen>
@@ -211,6 +255,7 @@ const DetailScreen = () => {
       ) : (
         renderMovie()
       )}
+      <RewardAd ref={rewardAdRef} />
     </Screen>
   );
 };
